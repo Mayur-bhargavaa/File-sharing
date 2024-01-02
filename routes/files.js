@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const File = require('../models/file');
 const { v4: uuidv4 } = require('uuid');
+const { createDiffieHellmanGroup } = require('crypto');
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'uploads/') ,
@@ -26,7 +27,7 @@ router.post('/', (req, res) => {
             size: req.file.size
         });
         const response = await file.save();
-        res.json({ file: `${process.env.APP_BASE_URL}/files/${response.uuid}` });
+        res.json({ file: `http://localhost:5000/files/${response.uuid}` });
       });
 });
 
@@ -53,19 +54,22 @@ router.post('/send', async (req, res) => {
       text: `${emailFrom} shared a file with you.`,
       html: require('../services/emailTemplate')({
                 emailFrom, 
-                downloadLink: `${process.env.APP_BASE_URL}/files/${file.uuid}?source=email` ,
+                downloadLink: `http://localhost:5000/files/${file.uuid}?source=email` ,
                 size: parseInt(file.size/1000) + ' KB',
                 expires: '24 hours'
             })
     }).then(() => {
       return res.json({success: true});
     }).catch(err => {
+      console.log(err)
       return res.status(500).json({error: 'Error in email sending.'});
     });
-} catch(err) {
-  return res.status(500).send({ error: 'Something went wrong.'});
+   
+} catch (error) {
+  console.log(error)
+  console.error('Error:', error);
+  res.status(500).json({ error: 'Internal Server Error' });
 }
-
 });
 
 module.exports = router;

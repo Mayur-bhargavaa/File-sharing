@@ -1,14 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const path = require('path');
 const cors = require('cors');
 // Cors 
+const allowedClients = process.env.ALLOWED_CLIENTS || 'http://localhost:3000';
 const corsOptions = {
-  origin: process.env.ALLOWED_CLIENTS.split(',')
-  // ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:3300']
-}
+  origin: ['http://127.0.0.1:3001', 'http://localhost:3001'], // Add your frontend origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
 // Default configuration looks like
 // {
