@@ -4,7 +4,7 @@ function connectDB() {
 
    
     // Database connection 🥳
-    mongoose.connect("", { useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify : true });
+    mongoose.connect("Enter Your DataBase Strings", { useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify : true });
     const connection = mongoose.connection;
     connection.once('open', () => {
         console.log('Database connected 🥳🥳🥳🥳');
