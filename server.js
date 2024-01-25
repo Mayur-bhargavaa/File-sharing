@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const cors = require('cors');
 // Cors 
-const allowedClients = process.env.ALLOWED_CLIENTS || 'http://localhost:3000';
+const allowedClients = process.env.ALLOWED_CLIENTS || 'https://main--ephemeral-gumdrop-c23cbf.netlify.app/';
 const corsOptions = {
   origin: ['http://127.0.0.1:3001', 'http://localhost:3001'], // Add your frontend origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
